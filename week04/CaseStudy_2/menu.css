@@ -1,0 +1,106 @@
+
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    align-items: center;
+    background-color: #f2ecb7;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 80vw;
+    min-width: 800px;
+    color: #2c0300;
+    margin-top: 20px;
+    box-shadow: 5px 5px 5px #2c0300;
+}
+
+header {
+    background-color: #cdaa65;
+    text-align: center;
+}
+
+header img {
+    width: 60vw;
+}
+.main {
+    display: flex;
+    height: 80%;
+}
+
+nav { 
+    font-weight: bold;
+	text-align: center;
+    font-size: 1.5em; 
+    padding-top: 20px; 
+    float: left; 
+    width: 15%; 
+    display: flex;
+    flex-direction: column;
+    background-color: #e2d1b3;
+}
+
+nav a {
+    text-decoration: none;
+    color: #7a4e49;
+}
+nav a:visited {
+    color: #9e8266;
+}
+
+
+footer {
+    text-align: center;
+    background-color: #d1b38e;
+    padding: 24px;
+}
+
+.menu-content {
+    display: flex;
+    flex-direction: column;
+    padding: 0 24px 12px;
+    background-color: #f5f5dd;
+    width: 85%;
+    align-items: center;
+    padding-bottom: 36px;
+}
+
+.menu-content h1 {
+    width: 100%;
+    font-size: 2em;
+}
+
+table {
+    color: #2c0300;
+    font-size: 1.5em;
+    width: 70%;
+}
+
+table tr:nth-child(odd) {
+    background-color: #d1b38e;
+}
+
+table tr:nth-child(even) {
+    background-color: unset;
+}
+
+table td {
+    padding: 24px;
+}
+
+table td:nth-child(1) {
+   max-width: 40%;
+   text-align: center;
+}
+table td:nth-child(2) {
+   max-width: 60%;
+}
+
+footer a {
+    color: #740a00
+}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Sample Form with Style</title>
+        <meta charset="UTF-8">
+        <style>
+            form {
+                background-color: #eaeaea;
+                font-family: Arial, sans-serif;
+                width: 350px;
+                padding: 10px;
+            }
+
+            label {
+                float: left;
+                clear: left;
+                display: block;
+                width: 100px;
+                text-align: right;
+                padding-right: 10px;
+                margin-top: 10px;
+            }
+
+            input,
+            textarea {
+                margin-top: 10px;
+                display: block;
+            }
+
+            #mySubmit {
+                margin-left: 110px;
+            }
+        </style>
+    </head>
+
+
+    <body>
+        <h2>Contact Us</h2>
+        <form method="post" action="">
+            <label>Name</label> <input type="text" name="cname">
+            <br />
+            <label>E-mail</label><input type="text" name="cemail">
+            <br />
+            <label>Comments</label><textarea name="comments" rows="4" cols="20"></textarea>
+            <br />
+            <input type="submit" id="mySubmit">
+        </form>
+    </body>
+
+</html>

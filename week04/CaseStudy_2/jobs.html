@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+        <title>JavaJam Coffee House</title>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" href="jobs.css" />
+
+    </head>
+
+    <body>
+        <div class="container">
+
+            <header>
+                <img src="assets/javalogo.gif">
+            </header>
+            <div class="main">
+                <nav>
+                    <a href="index.html">Home</a>
+                    <a href="menu.html">Menu</a>
+                    <a href="music.html">Music</a>
+                    <a href="jobs.html">Jobs</a>
+                </nav>
+                <div class="jobs-content">
+                    <h1>Jobs at JavaJam</h1>
+                    <p> Want to work at JavaJam? Fill out the form below to start your application. Required fields are
+                        marked with asterisk *</p>
+                    <form method="post" action="show_post.php">
+                        <table>
+                            <tr>
+                                <td>
+                                    <label>*Name</label>
+                                </td>
+                                <td>
+                                    <input type="text" name="name" placeholder="Enter your name here" required
+                                        size="30">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>*E-mail</label>
+                                </td>
+                                <td>
+                                    <input type="email" name="email" placeholder="Enter your E-mail ID here" required
+                                        size="30">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>Start Date:</label>
+                                </td>
+                                <td>
+                                    <input type="date" name="startDate">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>*Experience</label>
+                                </td>
+                                <td>
+                                    <textarea name="experience" rows="4" cols="40"
+                                        placeholder="Enter your experience here" required></textarea>
+                                </td>
+                            </tr>
+
+                        </table>
+                        <input type="reset" value="Clear"><br /><br />
+                        <input type="submit" value="Apply now">
+                    </form>
+                </div>
+            </div>
+
+            <footer>
+                <small><i>Copyright &copy2014 JavaJam Coffee House</i></small>
+                <br />
+                <small>
+                    <a href="mailto:vanessa.chandra2002@gmail.com"><i>vanessachristy@chandra.com</i>
+                    </a>
+                </small>
+            </footer>
+        </div>
+
+    </body>
+
+</html>
