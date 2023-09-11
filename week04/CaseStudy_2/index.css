@@ -21,18 +21,16 @@ body {
 }
 
 header {
-    background-color: #cdaa65;
+    background-color: #d2b38b;
     text-align: center;
 }
 
 header img {
     width: 60vw;
 }
-
 .main {
     display: flex;
     height: 80%;
-    width: 100%;
 }
 
 nav { 
@@ -56,46 +54,9 @@ nav a:visited {
     color: #9e8266;
 }
 
-.main-content {
-    display: flex;
-    flex-direction: column;
-    padding: 0 24px 12px;
-    background-color: #f5f5dd;
-    width: 85%;
-}
-
-.main-content h1 {
-    font-size: 2em;
-    color: #2c0300
-}
-.sub-content {
-    display: flex;
-    padding: 0 24px 24px;
-    justify-content: space-between;
-}
-
-.details {
-    width: 40%;
-    font-size: 1em;
-}
-
-.sub-content img {
-    width: 40vw;
-}
-
-li {
-    list-style-image: url('assets/coffeeicon.png');
-    /* from https://tinypng.com/backend/opt/output/1jqw77wqn2dbnxwrymd3yssr8m45953f/coffeesmall.png */
-}
-
-.sub-content p {
-    padding-left: 20px;
- 
-}
-
 footer {
     text-align: center;
-    background-color: #d1b38e;
+    background-color: #d2b38b;
     padding: 24px;
 }
 
