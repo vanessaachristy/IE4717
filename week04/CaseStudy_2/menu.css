@@ -16,8 +16,8 @@
 
 table {
     color: #2c0300;
-    font-size: 1.5em;
-    width: 70%;
+    font-size: 1em;
+    width: 100%;
 }
 
 table tr:nth-child(odd) {
@@ -40,6 +40,41 @@ table td:nth-child(2) {
    max-width: 60%;
 }
 
+
+
 footer a {
     color: #740a00
+}
+
+.qty {
+    color: #2c0300;
+    font-weight: 600;
+}
+
+.qty input {
+    width: 80px;
+}
+
+
+.subtotal {
+    color: #2c0300;
+    font-weight: 600;
+}
+
+.subtotal input {
+    width: 80px;
+}
+
+.totalContainer {
+    align-self: flex-end;
+    margin-right: 100px;
+}
+
+.totalContainer span {
+    color: #2c0300;
+    font-weight: 600;
+}
+
+.totalContainer input {
+    width: 90px;
 }

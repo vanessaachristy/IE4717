@@ -7,6 +7,7 @@
         <meta charset="UTF-8" />
         <link rel="stylesheet" href="index.css" />
         <link rel="stylesheet" href="jobs.css" />
+        <script type="text/javascript" src="jobs.js"></script>
 
     </head>
 
@@ -27,15 +28,16 @@
                     <h1>Jobs at JavaJam</h1>
                     <p> Want to work at JavaJam? Fill out the form below to start your application. Required fields are
                         marked with asterisk *</p>
-                    <form method="post" action="show_post.php">
+                    <form method="post" action="" id="jobsForm">
                         <table>
                             <tr>
                                 <td>
                                     <label>*Name</label>
                                 </td>
                                 <td>
-                                    <input type="text" name="name" placeholder="Enter your name here" required
-                                        size="30">
+                                    <input type="text" name="name" placeholder="Enter your name here" required size="30"
+                                        id="name">
+                                    <div style="color: red; display: none;" id="invalid-name">Invalid name!</div>
                                 </td>
                             </tr>
                             <tr>
@@ -43,8 +45,9 @@
                                     <label>*E-mail</label>
                                 </td>
                                 <td>
-                                    <input type="email" name="email" placeholder="Enter your E-mail ID here" required
-                                        size="30">
+                                    <input type="email" id="email" name="email" placeholder="Enter your E-mail ID here"
+                                        required size="30">
+                                    <div style="color: red; display: none;" id="invalid-email">Invalid email!</div>
                                 </td>
                             </tr>
                             <tr>
@@ -52,7 +55,8 @@
                                     <label>Start Date:</label>
                                 </td>
                                 <td>
-                                    <input type="date" name="startDate">
+                                    <input type="date" id="date" name="startDate">
+                                    <div style="color: red; display: none;" id="invalid-date">Invalid date!</div>
                                 </td>
                             </tr>
                             <tr>
@@ -60,8 +64,9 @@
                                     <label>*Experience</label>
                                 </td>
                                 <td>
-                                    <textarea name="experience" rows="4" cols="40"
-                                        placeholder="Enter your experience here" required></textarea>
+                                    <textarea name="experience" id="experience" rows="4" cols="40"
+                                        placeholder="Enter your experience here" required maxlength="300"></textarea>
+                                    <div id="experience-len">0/300</div>
                                 </td>
                             </tr>
 
