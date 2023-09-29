@@ -20,8 +20,8 @@ function countOrder() {
     const subIcedCappuccino = document.getElementById('subtotal-iced-cap')
 
 
-    let icedCappuccinoChecked;
-    let cafeAuLaitChecked;
+    let icedCappuccinoChecked = orderForm.icedCappuccino[0].id;
+    let cafeAuLaitChecked = orderForm.cafeAuLait[0].id;
 
     // Total order
     const totalOrder = document.getElementById('total-order');
@@ -67,6 +67,7 @@ function countOrder() {
     let checkoutBtn = document.getElementById('checkout-btn');
     checkoutBtn.onclick = () => {
         alert(`Just Java x${qtyJustJava.value}\nCafe au Lait(${cafeAuLaitChecked}) x${qtyCafeAuLait.value}\nIced Cappuccino(${icedCappuccinoChecked}) x${qtyIcedCappuccino.value}`)
+        return true;
     }
 }
 

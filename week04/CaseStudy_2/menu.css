@@ -78,3 +78,9 @@ footer a {
 .totalContainer input {
     width: 90px;
 }
+
+.checkoutBtn {
+    display: flex;
+    justify-content: center;
+    padding: 6px;
+}
