@@ -1,0 +1,42 @@
+
+
+table {
+    color: #2c0300;
+    font-size: 1.2em;
+    width: 60%;
+}
+
+table td {
+    padding-bottom: 12px;
+}
+
+table td:nth-child(1) {
+    text-align: right;
+}
+
+table td:nth-child(2) {
+    padding-left: 12px;
+}
+
+.jobs-content {
+    display: flex;
+    flex-direction: column;
+    padding: 0 24px 36px;
+    background-color: #f5f5dd;
+    width: 85%;
+}
+
+.jobs-content h1 {
+    width: 100%;
+    font-size: 2em;
+    margin-bottom: unset;
+}
+
+.jobs-content p {
+    font-size: 1.5em;
+    width: 100%;
+}
+
+footer a {
+    color: #740a00
+}
