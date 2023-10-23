@@ -1,0 +1,17 @@
+
+.report-content {
+    display: flex;
+    flex-direction: column;
+    padding: 0 24px 12px;
+    background-color: #f5f5dd;
+    width: 85%;
+    padding-bottom: 36px;
+}
+
+
+.report-options {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: 20px;
+}

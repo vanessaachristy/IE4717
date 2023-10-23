@@ -28,14 +28,24 @@ function handlePriceChange(productID) {
         }
     }
 
+    return isValid;
+
 }
 
 // input must be a number
 function validateInput(item) {
     let regex = /^(\.)?\d+(\.\d*)?/g
-    return regex.test(item);
+    return regex.test(item) && item > 0;
 }
 
 function handleSubmit() {
-    return true;
+    for (let i = 1; i <= 3; i++) {
+        if (handlePriceChange(i)) {
+            return true;
+        }
+        else {
+            alert("Please key in valid price! (No empty  / non numeric input)")
+            return false;
+        }
+    }
 }

@@ -41,30 +41,31 @@ mysqli_close($conn);
 <!DOCTYPE html>
 <html lang="en">
 
-	<head>
-		<title>JavaJam Coffee House</title>
-		<meta charset="UTF-8" />
-		<link rel="stylesheet" href="index.css" />
-		<link rel="stylesheet" href="update.css" />
-	</head>
+    <head>
+        <title>JavaJam Coffee House</title>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" href="index.css" />
+        <link rel="stylesheet" href="update.css" />
+    </head>
 
-	<body>
-		<div class="container">
-			<header>
-				<img src="assets/javalogo.png">
-			</header>
-			<div class="main">
-				<nav>
-					<a href="index.html">Home</a>
-					<a href="menu.html">Menu</a>
-					<a href="music.html">Music</a>
-					<a href="jobs.html">Jobs</a>
-				</nav>
-				<div class="menu-content">
-					<h1>Coffee at JavaJam</h1>
-					<form id="product-update" method="POST" action="update.php">
-						<h3>Select to update product prices</h3>
-						<?php
+    <body>
+        <div class="container">
+            <header>
+                <img src="assets/javalogo.png">
+            </header>
+            <div class="main">
+                <nav>
+                    <a href="index.html">Home</a>
+                    <a href="menu.php">Menu</a>
+                    <a href="music.html">Music</a>
+                    <a href="jobs.html">Jobs</a>
+                    <a href="update.php">Price</a>
+                </nav>
+                <div class="menu-content">
+                    <h1>Coffee at JavaJam</h1>
+                    <form id="product-update" method="POST" action="update.php">
+                        <h3>Select to update product prices</h3>
+                        <?php
 								$servername = "localhost";
 								$username = "root";
 								$dbname = "javajam";
@@ -89,8 +90,8 @@ mysqli_close($conn);
 								// };
 								
 							?>
-						<table>
-							<?php
+                        <table>
+                            <?php
 								$products = mysqli_query($conn, "SELECT * FROM product");
 
 								while($row = mysqli_fetch_assoc($products)) {
@@ -121,27 +122,26 @@ mysqli_close($conn);
 								};
 								
 							?>
-						</table>
-						<button type='submit' onclick="return handleSubmit()">Update Prices</button>
-					</form>
+                        </table>
+                        <button type='submit' onclick="return handleSubmit()">Update Prices</button>
+                    </form>
 
-				</div>
-			</div>
+                </div>
+            </div>
 
-			<footer>
-				<small><i>Copyright &copy2014 JavaJam Coffee House</i></small>
-				<br />
-				<small>
-					<a href="mailto:vanessa.chandra2002@gmail.com"><i>vanessachristy@chandra.com</i>
-					</a>
-				</small>
-			</footer>
-		</div>
-		  <script src=
-"https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
-    </script>
-		<script type="text/javascript" src="update.js"></script>
+            <footer>
+                <small><i>Copyright &copy2014 JavaJam Coffee House</i></small>
+                <br />
+                <small>
+                    <a href="mailto:vanessa.chandra2002@gmail.com"><i>vanessachristy@chandra.com</i>
+                    </a>
+                </small>
+            </footer>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
+        </script>
+        <script type="text/javascript" src="update.js"></script>
 
-	</body>
+    </body>
 
 </html>
