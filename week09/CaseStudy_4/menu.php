@@ -8,9 +8,8 @@ $conn = new mysqli($servername, $username, '', $dbname);
 
 // Check connection
 if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
+    die("Connection failed: " . $conn->connect_error);
 }
-echo "Connected successfully <br/>";
 
 
 $var1 = mysqli_query($conn, "SELECT * FROM productvariant WHERE ID=1");
@@ -19,21 +18,26 @@ $var3 = mysqli_query($conn, "SELECT * FROM productvariant WHERE ID=3");
 $var4 = mysqli_query($conn, "SELECT * FROM productvariant WHERE ID=4");
 $var5 = mysqli_query($conn, "SELECT * FROM productvariant WHERE ID=5");
 
-while($row = mysqli_fetch_assoc($var1)) {
-	$price1 = $row['Price'];
-};
-while($row = mysqli_fetch_assoc($var2)) {
-	$price2 = $row['Price'];
-};
-while($row = mysqli_fetch_assoc($var3)) {
-	$price3 = $row['Price'];
-};
-while($row = mysqli_fetch_assoc($var4)) {
-	$price4 = $row['Price'];
-};
-while($row = mysqli_fetch_assoc($var5)) {
-	$price5 = $row['Price'];
-};
+while ($row = mysqli_fetch_assoc($var1)) {
+    $price1 = $row['Price'];
+}
+;
+while ($row = mysqli_fetch_assoc($var2)) {
+    $price2 = $row['Price'];
+}
+;
+while ($row = mysqli_fetch_assoc($var3)) {
+    $price3 = $row['Price'];
+}
+;
+while ($row = mysqli_fetch_assoc($var4)) {
+    $price4 = $row['Price'];
+}
+;
+while ($row = mysqli_fetch_assoc($var5)) {
+    $price5 = $row['Price'];
+}
+;
 
 
 $today = date("Y-m-d");
@@ -42,14 +46,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sub = $_POST["sub"];
     $chosenCafeAuLait = 2;
     $chosenCappuccino = 4;
-     foreach ($_POST["cafeAuLait"] as $value) {
-            $chosenCafeAuLait = $value;
+    foreach ($_POST["cafeAuLait"] as $value) {
+        $chosenCafeAuLait = $value;
     }
     foreach ($_POST["icedCappuccino"] as $value) {
-            $chosenCappuccino = $value;
+        $chosenCappuccino = $value;
     }
-    echo 'console.log("' . $chosenCafeAuLait . '", "' . $chosenCappuccino . '");';
-    
+
     echo '<script>';
     for ($ii = 0; $ii < count($qty); $ii++) {
         $productVariantId = 0;
@@ -64,9 +67,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sub[$ii] = sanitize($sub[$ii]);
         echo 'console.log(' . $chosenCafeAuLait . ', ' . $chosenCappuccino . ');';
         echo 'console.log(' . $qty[$ii] . ', ' . $ii . ', ' . $sub[$ii] . ');';
-        echo 'console.log('.$productVariantId.');';
+        echo 'console.log(' . $productVariantId . ');';
         $query = "INSERT INTO Report (ProductVariantID, QuantitySold, Revenue, Date) VALUES (" . $productVariantId . ", " . $qty[$ii] . ", " . $sub[$ii] . ", '" . $today . "')";
-        $conn -> query($query);
+        $conn->query($query);
     }
     echo 'console.log("Database update success.");';
     echo '</script>';
@@ -77,11 +80,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 /**
  * Sanitize
  */
-function sanitize($data) {
-	$data = trim($data);
-	$data = stripslashes($data);
-	$data = htmlspecialchars($data);
-	return $data;
+function sanitize($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
 }
 
 
@@ -114,6 +118,7 @@ mysqli_close($conn);
                     <a href="music.html">Music</a>
                     <a href="jobs.html">Jobs</a>
                     <a href="update.php">Price</a>
+                    <a href="report.php">Report</a>
                 </nav>
                 <div class="menu-content">
                     <h1>Coffee at JavaJam</h1>

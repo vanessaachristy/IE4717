@@ -15,3 +15,104 @@
     justify-content: space-between;
     font-size: 20px;
 }
+
+.report-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 12px;
+    min-height: 70%;
+}
+
+.date {
+    margin-bottom: 12px;
+}
+
+.data-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+table {
+    text-align: center;
+    width: 80%;   
+}
+
+th {
+    border-bottom: 2px solid #000; /* Add a 2px solid black border to the bottom of header cells */
+    padding: 8px;
+}
+
+td {
+    padding: 12px 0;
+}
+
+.product-name {
+    font-weight: 800;
+}
+.variant {
+    font-style: italic;
+}
+.subtotal {
+     font-weight: 800;
+}
+
+.total {
+    font-weight: 800;
+}
+
+.variant.popular {
+    color: red;
+    font-weight: 700;
+}
+.revenue.popular {
+    color: red;
+    font-weight: 700;
+}
+
+.revenueTable tr:nth-child(2) td{
+    border-bottom: 2px dashed #000;
+}
+
+.revenueTable tr:nth-child(3) td:first-child{
+    border-bottom: 2px dashed #000;
+}
+
+.revenueTable tr:nth-child(3) td:last-child{
+    border-bottom: 2px dashed #000;
+}
+
+.revenueTable tr:nth-child(4) td{
+    border-bottom: 2px dashed #000;
+}
+
+.revenueTable tfoot td:first-child {
+    text-align: right;
+}
+.revenueTable tfoot td {
+    border-top: 5px solid #000;
+}
+
+.quantityTable td {
+    border-bottom: 2px dashed black;
+}
+
+.quantityTable tr:nth-last-child(2) td {
+    border-bottom: unset;
+}
+
+.quantityTable tr:last-child td {
+    border-bottom: unset;
+    border-top: 5px solid black;
+}
+
+.quantityTable th {
+    font-weight: 800;
+}
+
+.quantityTable th .variant {
+    font-style: italic;
+}

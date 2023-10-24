@@ -8,9 +8,9 @@ $conn = new mysqli($servername, $username, '', $dbname);
 
 // Check connection
 if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
+    die("Connection failed: " . $conn->connect_error);
 }
-echo "Connected successfully <br>";
+echo '<script>console.log("Connected Successfully.")</script>';
 
 $today = date("Y-m-d");
 
@@ -27,7 +27,7 @@ mysqli_close($conn);
 <html lang="en">
 
     <head>
-        <title>JavaJam Coffee House</title>
+        <title>Generate Report</title>
         <meta charset="UTF-8" />
         <link rel="stylesheet" href="index.css" />
         <link rel="stylesheet" href="report.css" />
@@ -45,13 +45,14 @@ mysqli_close($conn);
                     <a href="music.html">Music</a>
                     <a href="jobs.html">Jobs</a>
                     <a href="update.php">Price</a>
+                    <a href="report.php">Report</a>
                 </nav>
                 <div class="report-content">
                     <h3>Click to generate daily sales report</h3>
                     <form id="reportForm" class="report-options" action="report-content.php" method="POST">
                         <span class="date"><label for="datepicker">Select a Date:</label>
-                            <input type="date" id="datepicker" name="datepicker" max="<?=$today ?>" value="<?=$today?>"
-                                required></span>
+                            <input type="date" id="datepicker" name="datepicker" max="<?= $today ?>"
+                                value="<?= $today ?>" required></span>
                         <div class="option">
                             <input id="revenueCheckbox" type="checkbox" onchange="onCheckboxClicked('revenueCheckbox')"
                                 name="revenue" />Total dollar sales by

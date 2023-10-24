@@ -8,24 +8,25 @@ $conn = new mysqli($servername, $username, '', $dbname);
 
 // Check connection
 if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
+    die("Connection failed: " . $conn->connect_error);
 }
 echo '<script>console.log("Connected Successfully.")</script>';
 
 
 $isRevenue = false;
 $isQuantity = false;
+$todayDate = date("Y-m-d");
 $currentDate = date("Y-m-d");
 
-if($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST["revenue"])) {    
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST["revenue"])) {
         $isRevenue = true;
     }
-     if (isset($_POST["quantity"])) {   
-         $isQuantity = true; 
+    if (isset($_POST["quantity"])) {
+        $isQuantity = true;
     }
     if (isset($_POST["datepicker"])) {
-         $currentDate = $_POST["datepicker"];
+        $currentDate = $_POST["datepicker"];
     }
 }
 
@@ -34,11 +35,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $reportCategory = $_GET["reportCategory"];
     $isRevenue = $reportCategory === 'revenue';
     $isQuantity = $reportCategory === 'quantity';
-    echo '<script>console.log("'.$reportCategory.'")</script>';
+    echo '<script>console.log("' . $reportCategory . '")</script>';
 }
-
-
-
 
 $fetchDailyReportDataQuery = "SELECT
     pv.ID AS ProductVariantID,
@@ -53,11 +51,11 @@ JOIN
     Product p ON pv.ProductID = p.ID
 LEFT JOIN
     Report r ON pv.ID = r.ProductVariantID
-AND r.Date = '".$currentDate."'
+AND r.Date = '" . $currentDate . "'
 GROUP BY
     pv.ID, pv.ProductID, p.Name, pv.Variant";
 
-$dailyReportData = $conn -> query($fetchDailyReportDataQuery);
+$dailyReportData = $conn->query($fetchDailyReportDataQuery);
 
 $fetchSummaryQuery = "SELECT
     pv.ProductID,
@@ -70,14 +68,25 @@ JOIN
     Product p ON pv.ProductID = p.ID
 LEFT JOIN
     Report r ON pv.ID = r.ProductVariantID
-AND r.Date = '".$currentDate."'
+AND r.Date = '" . $currentDate . "'
 GROUP BY
     pv.ProductID, p.Name";
 
-$summaryData = $conn -> query($fetchSummaryQuery);
+$summaryData = $conn->query($fetchSummaryQuery);
 
 // mysqli_close($conn);
 
+$mostPopularQuery = $fetchDailyReportDataQuery . ' ORDER BY TotalRevenue DESC LIMIT 1';
+$mostPopular = $conn->query($mostPopularQuery);
+$mostPopularVariantID = -1;
+$mostPopularRevenue = 0;
+while ($row = mysqli_fetch_assoc($mostPopular)) {
+    if ($row['TotalRevenue'] != 0) {
+        $mostPopularVariantID = $row['ProductVariantID'];
+        $mostPopularRevenue = $row['TotalRevenue'];
+    }
+
+}
 
 ?>
 
@@ -85,7 +94,7 @@ $summaryData = $conn -> query($fetchSummaryQuery);
 <html lang="en">
 
     <head>
-        <title>JavaJam Coffee House</title>
+        <title>Report Content</title>
         <meta charset="UTF-8" />
         <link rel="stylesheet" href="index.css" />
         <link rel="stylesheet" href="report.css" />
@@ -103,191 +112,165 @@ $summaryData = $conn -> query($fetchSummaryQuery);
                     <a href="music.html">Music</a>
                     <a href="jobs.html">Jobs</a>
                     <a href="update.php">Price</a>
+                    <a href="report.php">Report</a>
                 </nav>
                 <div class="report-content">
                     <form id="reportContentForm" method="GET" action="report-content.php">
-                        <?php 
-                    if ($isRevenue) {
-                        echo '<h1>Total dollar sales by products</h1>';
-                    }
-                    if ($isQuantity) {
-                        echo '<h1>Sales quantities by product categories</h1>';
-                    }
-                    ?>
-                        <span class="date">
-                            <input type="date" id="datepicker" name="datepicker" max="<?=$today ?>"
-                                value="<?= $currentDate ?>" onchange="onDateChange()"></span>
-                        <div>
-                            <?php
-                            $fetchQuery = "SELECT * FROM Report WHERE Date = '$currentDate'";
-                            $reportData = $conn->query($fetchQuery);
-                            if ($reportData) { // Check if the query was successful
-                                while ($row = $reportData->fetch_assoc()) {
-                                echo '<tr>';
-                                echo '<td>' . $row["ProductVariantID"] . '</td>';
-                                echo '<td>' . $row["QuantitySold"] . '</td>';
-                                echo '<td>' . $row["Revenue"] . '</td>';
-                                echo '</tr>';
-                            }
-                            };
-                            ?>
-                            <tr>
-                                <td>
-                                    Just Java
-                                </td>
-                                <td>
-                                    Endless Cup
-                                </td>
-                                <td>
-                                    $11.0
-                                </td>
-                                <td>
-                                    $11.0
-                                </td>
-                            </tr>
-                            </table> -->
-                            <?php
-
+                        <?php
                         if ($isRevenue) {
-                            echo '<input type="hidden" name="reportCategory" value="revenue"/>';
-                             $summaryData = $conn -> query($fetchSummaryQuery);
-                             $totalAllRevenue = 0;
-
-                        if ($dailyReportData && $summaryData) { // Check if the query was successful
-                            echo '<table border="1">';
-                            echo '<tr>';
-                            echo '<th>Product</th>';
-                            echo '<th colspan="2">Product Items</th>'; // "Product Items" spans two cells
-                            echo '<th>Subtotal</th>';
-                            echo '</tr>';
-                            
-                            while ($summaryRow = mysqli_fetch_assoc($summaryData)) {
-                                if ($summaryRow["ProductID"] == 2 || $summaryRow["ProductID"] == 3) {
-                                    echo '<tr>';
-                                    echo '<td rowspan="2">' . $summaryRow["ProductName"] . '</td>';
-                                     $dailyReportData = $conn -> query($fetchDailyReportDataQuery);
-                                    while ($row = mysqli_fetch_assoc($dailyReportData)) {
-                                        if ($row["ProductID"] === $summaryRow["ProductID"] && ($row["ProductVariantID"] == 2 || $row["ProductVariantID"] == 4)) {
-                                            echo '<td>' . $row["Variant"] . '</td>';
-                                                if (isset($row["TotalRevenue"])) {
-                                                        echo '<td>' . $row["TotalRevenue"] . '</td>'; 
-                                                    } else {
-                                                        echo '<td>$0</td>';
-                                                    };
-                                        };
-                                    };
-                                    echo '<td rowspan="2">' . $summaryRow["TotalRevenue"] . '</td>'; 
-                                    $totalAllRevenue += $summaryRow["TotalRevenue"];
-                                    echo '</tr>';
-                                    echo '<tr>';
-                                    $dailyReportData = $conn -> query($fetchDailyReportDataQuery);
-                                    while ($row = mysqli_fetch_assoc($dailyReportData)) {
-                                    if ($row["ProductID"] === $summaryRow["ProductID"] && ($row["ProductVariantID"] == 3 || $row["ProductVariantID"] == 5)) {
-                                        echo '<td>' . $row["Variant"] . '</td>';
-                                            if (isset($row["TotalRevenue"])) {
-                                                    echo '<td>' . $row["TotalRevenue"] . '</td>'; 
-                                                } else {
-                                                    echo '<td>$0</td>';
-                                            }
-                                        }
-                                    };
-                                    echo '</tr>';
-                                } else {
-                                    echo '<tr>';
-                                    echo '<td>' . $summaryRow["ProductName"] . '</td>';
-                                     $dailyReportData = $conn -> query($fetchDailyReportDataQuery);
-                                    while ($row = mysqli_fetch_assoc($dailyReportData)) {
-                                    if ($row["ProductID"] === $summaryRow["ProductID"]) {
-                                        echo '<td>' . $row["Variant"] . '</td>';
-                                        if (isset($row["TotalRevenue"])) {
-                                            echo '<td>' . $row["TotalRevenue"] . '</td>'; 
-                                        } else {
-                                            echo '<td>$0</td>';
-                                        }
-                                        }
-                                    }
-                                    echo '<td>' . $summaryRow["TotalRevenue"] . '</td>'; 
-                                    $totalAllRevenue += $summaryRow["TotalRevenue"];
-                                    echo '</tr>';
-                                };
-                            }
-                            echo '<tfoot>';
-                            echo '<tr>';
-                            echo '<td colspan=3>Total</td>';
-                            echo '<td>'. $totalAllRevenue .'</td>';
-                            echo '</tr>';
-                            echo '</table>';
+                            echo '<h1>Total dollar sales by products</h1>';
                         }
-                            else {
-                            echo "Error: " . $conn->error;
+                        if ($isQuantity) {
+                            echo '<h1>Sales quantities by product categories</h1>';
                         }
-                        } 
-                        else if ($isQuantity) {
-                            echo '<input type="hidden" name="reportCategory" value="quantity"/>';
-                             $summaryData = $conn -> query($fetchSummaryQuery);
-                            if ($summaryData) { // Check if the query was successful
-                                
-                                echo '<table border="1">';
-                                echo '<tr>';
-                                echo '<th>Category</th>';
-                                echo '<th>Endless Cup</th>'; // "Product Items" spans two cells
-                                echo '<th>Single</th>';
-                                echo '<th>Double</th>';
-                                echo '<th>Subtotal</th>';
-                                echo '</tr>';
-
-                                $totalQtyEach = [0, 0, 0];
-
-                                 while ($summaryRow = mysqli_fetch_assoc($summaryData)) {
-                                    echo '<tr>';
-                                    echo '<td>'.$summaryRow["ProductName"].'</td>';
-                                    $dailyReportData = $conn -> query($fetchDailyReportDataQuery);
-                                    $ii = 1;
-                                    while ($ii<=3) {
-                                        $dailyReportData = $conn -> query($fetchDailyReportDataQuery);
-                                        while ($row = mysqli_fetch_assoc($dailyReportData)) {
-                                            if ($row["ProductID"] == $summaryRow["ProductID"]) {
-                                                if ($row["ProductVariantID"] == $ii) {
-                                                    $totalQtyEach[$summaryRow["ProductID"]-1] += $row["TotalQuantitySold"];
-                                                    echo '<td>' . $row["TotalQuantitySold"] . '</td>';
-                                                    echo '<script>console.log("'.$ii.'-'.$summaryRow["ProductName"].'")</script>';
-                                                    $ii++;
-                                                    // echo '<script>console.log('.$ii.''.$row["ProductVariantID"].')</script>';
-                                                } else if (($ii >= 2 && $row["ProductVariantID"] == $ii+2)) {
-                                                     $totalQtyEach[$summaryRow["ProductID"]-1] += $row["TotalQuantitySold"];
-                                                    echo '<td>' . $row["TotalQuantitySold"] . '</td>';
-                                                    echo '<script>console.log("'.$ii.'-'.$summaryRow["ProductName"].'")</script>';
-                                                    $ii++;
-                                                }
-                                            }
-                                        }
-                                        if ($ii<=3) {
-                                            echo '<td>/</td>';
-                                        }                                        
-                                        $ii++;
-                                    }
-                                    echo '<td>'.$totalQtyEach[$summaryRow["ProductID"]-1].'</td>';
-                                    echo '</tr>';
-                                 }
-                                 echo '<tr>';
-                                 echo '<td>Total</td>';
-                                 echo '<script>console.log("'.count($totalQtyEach).'")</script>';
-                                 for ($jj=0; $jj<count($totalQtyEach); $jj++) {
-                                    echo '<td>'.$totalQtyEach[$jj].'</td>';
-                                };
-                                $totalSubtotal = array_sum($totalQtyEach);
-                                echo '<td>'.$totalSubtotal.'</td>';
-                                echo '</tr>';
-
-                               
-
-                                echo '</table>';
-                                }
-                            } else {
-                                echo 'No data.';
-                            }
-                       
                         ?>
+
+                        <div class="report-container">
+                            <span class="date">
+                                <input type="date" id="datepicker" name="datepicker" max="<?= $todayDate ?>"
+                                    value="<?= $currentDate ?>" onchange="onDateChange()"></span>
+                            <div class="data-container">
+                                <?php
+
+                                if ($isRevenue) {
+                                    echo '<input type="hidden" name="reportCategory" value="revenue"/>';
+                                    $summaryData = $conn->query($fetchSummaryQuery);
+                                    $totalAllRevenue = 0;
+
+                                    if ($dailyReportData && $summaryData) { // Check if the query was successful
+                                        echo '<table class="revenueTable">';
+                                        echo '<tr>';
+                                        echo '<th>Product</th>';
+                                        echo '<th colspan="2">Product Items</th>'; // "Product Items" spans two cells
+                                        echo '<th>Subtotal</th>';
+                                        echo '</tr>';
+
+                                        while ($summaryRow = mysqli_fetch_assoc($summaryData)) {
+                                            if ($summaryRow["ProductID"] == 2 || $summaryRow["ProductID"] == 3) {
+                                                echo '<tr>';
+                                                echo '<td rowspan="2" class="product-name">' . $summaryRow["ProductName"] . '</td>';
+                                                $dailyReportData = $conn->query($fetchDailyReportDataQuery);
+                                                while ($row = mysqli_fetch_assoc($dailyReportData)) {
+                                                    if ($row["ProductID"] === $summaryRow["ProductID"] && ($row["ProductVariantID"] == 2 || $row["ProductVariantID"] == 4)) {
+                                                        echo '<td class="variant ' . (($row["ProductVariantID"] == $mostPopularVariantID) ? "popular" : '') . '">' . $row["Variant"] . '</td>';
+
+                                                        if (isset($row["TotalRevenue"])) {
+                                                            echo '<td class="revenue ' . (($row["ProductVariantID"] == $mostPopularVariantID) ? "popular" : '') . '">$' . $row["TotalRevenue"] . '</td>';
+                                                        } else {
+                                                            echo '<td class="revenue">$0</td>';
+                                                        }
+                                                        ;
+                                                    }
+                                                    ;
+                                                }
+                                                ;
+                                                echo '<td rowspan="2" class="subtotal">$' . $summaryRow["TotalRevenue"] . '</td>';
+                                                $totalAllRevenue += $summaryRow["TotalRevenue"];
+                                                echo '</tr>';
+                                                echo '<tr>';
+                                                $dailyReportData = $conn->query($fetchDailyReportDataQuery);
+                                                while ($row = mysqli_fetch_assoc($dailyReportData)) {
+                                                    if ($row["ProductID"] === $summaryRow["ProductID"] && ($row["ProductVariantID"] == 3 || $row["ProductVariantID"] == 5)) {
+                                                        echo '<td class="variant ' . (($row["ProductVariantID"] == $mostPopularVariantID) ? "popular" : '') . '">' . $row["Variant"] . '</td>';
+                                                        if (isset($row["TotalRevenue"])) {
+                                                            echo '<td class="revenue ' . (($row["ProductVariantID"] == $mostPopularVariantID) ? "popular" : '') . ' ">$' . $row["TotalRevenue"] . '</td>';
+                                                        } else {
+                                                            echo '<td class="revenue">$0</td>';
+                                                        }
+                                                    }
+                                                }
+                                                ;
+                                                echo '</tr>';
+                                            } else {
+                                                echo '<tr>';
+                                                echo '<td class="product-name">' . $summaryRow["ProductName"] . '</td>';
+                                                $dailyReportData = $conn->query($fetchDailyReportDataQuery);
+                                                while ($row = mysqli_fetch_assoc($dailyReportData)) {
+                                                    if ($row["ProductID"] === $summaryRow["ProductID"]) {
+                                                        echo '<td class="variant ' . (($row["ProductVariantID"] == $mostPopularVariantID) ? "popular" : '') . ' ">' . $row["Variant"] . '</td>';
+                                                        if (isset($row["TotalRevenue"])) {
+                                                            echo '<td class="revenue ' . (($row["ProductVariantID"] == $mostPopularVariantID) ? "popular" : '') . ' ">$' . $row["TotalRevenue"] . '</td>';
+                                                        } else {
+                                                            echo '<td class="revenue">$0</td>';
+                                                        }
+                                                    }
+                                                }
+                                                echo '<td class="subtotal">$' . $summaryRow["TotalRevenue"] . '</td>';
+                                                $totalAllRevenue += $summaryRow["TotalRevenue"];
+                                                echo '</tr>';
+                                            }
+                                            ;
+                                        }
+                                        echo '<tfoot>';
+                                        echo '<tr>';
+                                        echo '<td colspan=3 class="total">Total</td>';
+                                        echo '<td class="total">$' . $totalAllRevenue . '</td>';
+                                        echo '</tr>';
+                                        echo '</table>';
+                                    } else {
+                                        echo "Error: " . $conn->error;
+                                    }
+                                } else if ($isQuantity) {
+                                    echo '<input type="hidden" name="reportCategory" value="quantity"/>';
+                                    $summaryData = $conn->query($fetchSummaryQuery);
+                                    if ($summaryData) { // Check if the query was successful
+                                
+                                        echo '<table class="quantityTable">';
+                                        echo '<tr>';
+                                        echo '<th>Category</th>';
+                                        echo '<th class="variant">Endless Cup</th>'; // "Product Items" spans two cells
+                                        echo '<th class="variant">Single</th>';
+                                        echo '<th class="variant">Double</th>';
+                                        echo '<th>Subtotal</th>';
+                                        echo '</tr>';
+
+                                        $totalQtyEach = [0, 0, 0];
+
+                                        while ($summaryRow = mysqli_fetch_assoc($summaryData)) {
+                                            echo '<tr>';
+                                            echo '<td class="product-name">' . $summaryRow["ProductName"] . '</td>';
+                                            $dailyReportData = $conn->query($fetchDailyReportDataQuery);
+                                            $ii = 1;
+                                            while ($ii <= 3) {
+                                                $dailyReportData = $conn->query($fetchDailyReportDataQuery);
+                                                while ($row = mysqli_fetch_assoc($dailyReportData)) {
+                                                    if ($row["ProductID"] == $summaryRow["ProductID"]) {
+                                                        if ($row["ProductVariantID"] == $ii) {
+                                                            $totalQtyEach[$summaryRow["ProductID"] - 1] += $row["TotalQuantitySold"];
+                                                            echo '<td class="quantity">' . $row["TotalQuantitySold"] . '</td>';
+                                                            $ii++;
+                                                            // echo '<script>console.log('.$ii.''.$row["ProductVariantID"].')</script>';
+                                                        } else if (($ii >= 2 && $row["ProductVariantID"] == $ii + 2)) {
+                                                            $totalQtyEach[$summaryRow["ProductID"] - 1] += $row["TotalQuantitySold"];
+                                                            echo '<td class="quantity">' . $row["TotalQuantitySold"] . '</td>';
+                                                            $ii++;
+                                                        }
+                                                    }
+                                                }
+                                                if ($ii <= 3) {
+                                                    echo '<td>/</td>';
+                                                }
+                                                $ii++;
+                                            }
+                                            echo '<td class="subtotal">' . $totalQtyEach[$summaryRow["ProductID"] - 1] . '</td>';
+                                            echo '</tr>';
+                                        }
+                                        echo '<tr>';
+                                        echo '<td class="total">Total</td>';
+                                        for ($jj = 0; $jj < count($totalQtyEach); $jj++) {
+                                            echo '<td>' . $totalQtyEach[$jj] . '</td>';
+                                        }
+                                        ;
+                                        $totalSubtotal = array_sum($totalQtyEach);
+                                        echo '<td class="total">' . $totalSubtotal . '</td>';
+                                        echo '</tr>';
+                                        echo '</table>';
+                                    }
+                                } else {
+                                    echo 'No data.';
+                                }
+                                ?>
+                            </div>
                         </div>
                     </form>
                 </div>
